@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 상담 트리 데모</title>
+    <link rel="stylesheet" href="/web/src/styles/base.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="product-title">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M4 4h16v6l-8 4-8-4V4zm0 8.79V20h16v-7.21l-8 4-8-4z" />
+          </svg>
+          <span>AI Consultation</span>
+        </div>
+        <div class="mode-tabs" role="tablist" aria-label="상담 뷰 전환">
+          <button class="mode-tab is-active" data-mode="conversation" role="tab" aria-selected="true">상담</button>
+          <button class="mode-tab" data-mode="insights" role="tab" aria-selected="false">통계</button>
+          <button class="mode-tab" data-mode="notes" role="tab" aria-selected="false">노트</button>
+        </div>
+        <div class="header-actions">
+          <button class="circle-button" id="header-create-checkpoint" type="button" aria-label="현재 경로 체크포인트로 저장">🏁</button>
+          <button class="circle-button" type="button" aria-label="도움말">?</button>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <section class="conversation-panel" aria-labelledby="conversation-title">
+          <div class="panel-header">
+            <nav class="stage-selector" aria-label="상담 진행 단계">
+              <ol id="stage-selector" class="stage-selector-list"></ol>
+            </nav>
+            <div class="stage-info">
+              <h1 id="conversation-title">Question 1</h1>
+              <p class="panel-subtitle">이 노드는 상담 경로를 결정하기 위한 질문입니다.</p>
+            </div>
+          </div>
+          <div id="message-timeline" class="message-timeline" aria-live="polite"></div>
+        </section>
+
+        <aside class="tree-panel" aria-label="대화 트리">
+          <h2>Career Branches</h2>
+          <p class="tree-description">분기 지점을 선택해 상담 방향을 바꿔보세요.</p>
+          <ul id="branch-list" class="branch-list" role="list"></ul>
+
+          <div class="panel-divider" role="presentation"></div>
+
+          <section class="checkpoint-panel" aria-label="체크포인트 관리">
+            <header class="checkpoint-header">
+              <h3>Checkpoints</h3>
+              <button id="checkpoint-create-btn" class="checkpoint-create-button" type="button">현재 경로 저장</button>
+            </header>
+            <p class="checkpoint-caption">경로를 저장해 두면 나중에 바로 복원할 수 있습니다.</p>
+            <p id="checkpoint-status" class="checkpoint-status">아직 저장된 경로가 없습니다.</p>
+            <ul id="checkpoint-list" class="checkpoint-list"></ul>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="/web/src/app.js"></script>
+  </body>
+</html>
