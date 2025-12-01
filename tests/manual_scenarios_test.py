@@ -4,9 +4,9 @@
 이 스크립트는 PM 개발지시서 v2.0의 시나리오 1-3을 프로그래매틱하게 검증합니다.
 """
 
-from core.store import Store
+from cli.visualizer import visualize_path, visualize_tree
 from core.conversation import ConversationManager
-from cli.visualizer import visualize_tree, visualize_path
+from core.store import Store
 
 
 def print_section(title):
@@ -31,18 +31,18 @@ def scenario_1_basic_conversation():
     conv = ConversationManager(store)
 
     # Step 1: 첫 번째 질문
-    print("\n[사용자] ask \"취업 준비가 너무 막막해요\"")
+    print('\n[사용자] ask "취업 준비가 너무 막막해요"')
     node1 = conv.turn(
         "취업 준비가 너무 막막해요",
-        "[더미 응답] '취업 준비가 너무 막막해요'에 대한 AI 답변입니다."
+        "[더미 응답] '취업 준비가 너무 막막해요'에 대한 AI 답변입니다.",
     )
     print(f"✅ 노드 생성됨: {node1.id[:8]}...")
 
     # Step 2: 두 번째 질문
-    print("\n[사용자] ask \"이력서는 어떻게 써야 하나요?\"")
+    print('\n[사용자] ask "이력서는 어떻게 써야 하나요?"')
     node2 = conv.turn(
         "이력서는 어떻게 써야 하나요?",
-        "[더미 응답] '이력서는 어떻게 써야 하나요?'에 대한 AI 답변입니다."
+        "[더미 응답] '이력서는 어떻게 써야 하나요?'에 대한 AI 답변입니다.",
     )
     print(f"✅ 노드 생성됨: {node2.id[:8]}...")
 
@@ -76,7 +76,7 @@ def scenario_2_branching(store, conv, node1, node2):
     print_section("시나리오 2: 분기 생성")
 
     # Step 1: 체크포인트 저장
-    print("\n[사용자] save \"이력서질문\"")
+    print('\n[사용자] save "이력서질문"')
     success = store.save_checkpoint("이력서질문")
     assert success, "체크포인트 저장 실패"
     print("✅ '이력서질문' 이름표를 현재 노드에 붙였습니다.")
@@ -88,10 +88,10 @@ def scenario_2_branching(store, conv, node1, node2):
     print(f"✅ {node1.id[:8]}... 위치로 이동했습니다.")
 
     # Step 3: 새로운 질문 (분기 생성)
-    print("\n[사용자] ask \"면접은 어떻게 준비하나요?\"")
+    print('\n[사용자] ask "면접은 어떻게 준비하나요?"')
     node3 = conv.turn(
         "면접은 어떻게 준비하나요?",
-        "[더미 응답] '면접은 어떻게 준비하나요?'에 대한 AI 답변입니다."
+        "[더미 응답] '면접은 어떻게 준비하나요?'에 대한 AI 답변입니다.",
     )
     print(f"✅ 노드 생성됨: {node3.id[:8]}...")
 
@@ -127,10 +127,10 @@ def scenario_3_checkpoint_navigation(store, conv, node2):
     checkpoints = store.list_checkpoints()
     print("이름표 목록:")
     for name, node_id in checkpoints.items():
-        print(f"  - \"{name}\" → {node_id[:8]}...")
+        print(f'  - "{name}" → {node_id[:8]}...')
 
     # Step 2: 체크포인트로 이동
-    print("\n[사용자] goto \"이력서질문\"")
+    print('\n[사용자] goto "이력서질문"')
     success = store.load_checkpoint("이력서질문")
     assert success, "체크포인트 로드 실패"
     print("✅ '이력서질문' 위치로 이동했습니다.")
@@ -141,13 +141,15 @@ def scenario_3_checkpoint_navigation(store, conv, node2):
     print(output)
 
     # 검증: 현재 노드가 node2여야 함
-    assert store.get_current_node().id == node2.id, "현재 노드는 이력서질문 체크포인트여야 함"
+    assert (
+        store.get_current_node().id == node2.id
+    ), "현재 노드는 이력서질문 체크포인트여야 함"
 
     # Step 4: 대화 이어가기
-    print("\n[사용자] ask \"자기소개서도 알려주세요\"")
+    print('\n[사용자] ask "자기소개서도 알려주세요"')
     node4 = conv.turn(
         "자기소개서도 알려주세요",
-        "[더미 응답] '자기소개서도 알려주세요'에 대한 AI 답변입니다."
+        "[더미 응답] '자기소개서도 알려주세요'에 대한 AI 답변입니다.",
     )
     print(f"✅ 노드 생성됨: {node4.id[:8]}...")
 
@@ -208,6 +210,7 @@ def main():
     except Exception as e:
         print(f"\n❌ 예기치 않은 오류: {e}")
         import traceback
+
         traceback.print_exc()
         return False
 
