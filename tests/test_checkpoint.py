@@ -3,14 +3,18 @@ checkpoint 모듈 테스트.
 """
 
 import pytest
+
 from core.checkpoint import (
-    validate_checkpoint_name, suggest_checkpoint_name,
-    get_checkpoint_info, list_checkpoints_detailed,
-    find_checkpoint_by_node, get_checkpoint_stats,
-    rename_checkpoint
+    find_checkpoint_by_node,
+    get_checkpoint_info,
+    get_checkpoint_stats,
+    list_checkpoints_detailed,
+    rename_checkpoint,
+    suggest_checkpoint_name,
+    validate_checkpoint_name,
 )
-from core.store import Store
 from core.models import create_node
+from core.store import Store
 
 
 class TestValidateCheckpointName:
@@ -74,8 +78,8 @@ class TestGetCheckpointInfo:
         info = get_checkpoint_info(store, "cp1")
 
         assert info is not None
-        assert info['name'] == "cp1"
-        assert info['node_id'] == node.id
+        assert info["name"] == "cp1"
+        assert info["node_id"] == node.id
 
     def test_get_info_not_exists(self):
         """존재하지 않는 체크포인트."""
@@ -143,8 +147,8 @@ class TestGetCheckpointStats:
 
         stats = get_checkpoint_stats(store)
 
-        assert stats['total_count'] == 0
-        assert stats['avg_depth'] == 0
+        assert stats["total_count"] == 0
+        assert stats["avg_depth"] == 0
 
     def test_stats_with_checkpoints(self):
         """체크포인트가 있는 통계."""
@@ -157,8 +161,8 @@ class TestGetCheckpointStats:
 
         stats = get_checkpoint_stats(store)
 
-        assert stats['total_count'] == 2
-        assert stats['avg_depth'] > 0
+        assert stats["total_count"] == 2
+        assert stats["avg_depth"] > 0
 
 
 class TestRenameCheckpoint:
