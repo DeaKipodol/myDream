@@ -2,8 +2,10 @@
 Tests for core models (Node, Tree, and helper functions).
 """
 
-import pytest
 from datetime import datetime
+
+import pytest
+
 from core.models import Node, Tree, create_node
 
 
@@ -16,7 +18,7 @@ class TestNode:
             id="test-1",
             parent_id="root",
             user_question="What is Python?",
-            ai_answer="Python is a programming language."
+            ai_answer="Python is a programming language.",
         )
 
         assert node.id == "test-1"
@@ -34,7 +36,7 @@ class TestNode:
             parent_id="root",
             user_question="Test?",
             ai_answer="Answer.",
-            metadata=metadata
+            metadata=metadata,
         )
 
         assert node.metadata == metadata
@@ -46,7 +48,7 @@ class TestNode:
             id="root",
             parent_id=None,
             user_question="[시스템]",
-            ai_answer="대화를 시작합니다"
+            ai_answer="대화를 시작합니다",
         )
 
         assert node.parent_id is None
@@ -56,31 +58,18 @@ class TestNode:
         """Test that empty id raises ValueError."""
         with pytest.raises(ValueError, match="Node id cannot be empty"):
             Node(
-                id="",
-                parent_id="root",
-                user_question="Question?",
-                ai_answer="Answer."
+                id="", parent_id="root", user_question="Question?", ai_answer="Answer."
             )
 
     def test_node_validation_empty_question(self):
         """Test that empty user_question raises ValueError."""
         with pytest.raises(ValueError, match="user_question cannot be empty"):
-            Node(
-                id="test-1",
-                parent_id="root",
-                user_question="",
-                ai_answer="Answer."
-            )
+            Node(id="test-1", parent_id="root", user_question="", ai_answer="Answer.")
 
     def test_node_validation_empty_answer(self):
         """Test that empty ai_answer raises ValueError."""
         with pytest.raises(ValueError, match="ai_answer cannot be empty"):
-            Node(
-                id="test-1",
-                parent_id="root",
-                user_question="Question?",
-                ai_answer=""
-            )
+            Node(id="test-1", parent_id="root", user_question="Question?", ai_answer="")
 
 
 class TestTree:
@@ -110,7 +99,7 @@ class TestTree:
             id="node-1",
             parent_id="root",
             user_question="Question 1?",
-            ai_answer="Answer 1."
+            ai_answer="Answer 1.",
         )
 
         result = tree.add_node(node)
@@ -123,16 +112,13 @@ class TestTree:
         """Test that adding duplicate ID returns False."""
         tree = Tree()
         node1 = Node(
-            id="node-1",
-            parent_id="root",
-            user_question="Q1?",
-            ai_answer="A1."
+            id="node-1", parent_id="root", user_question="Q1?", ai_answer="A1."
         )
         node2 = Node(
             id="node-1",  # Same ID
             parent_id="root",
             user_question="Q2?",
-            ai_answer="A2."
+            ai_answer="A2.",
         )
 
         tree.add_node(node1)
@@ -145,24 +131,18 @@ class TestTree:
         """Test that adding node with non-existent parent raises ValueError."""
         tree = Tree()
         node = Node(
-            id="node-1",
-            parent_id="non-existent",
-            user_question="Q?",
-            ai_answer="A."
+            id="node-1", parent_id="non-existent", user_question="Q?", ai_answer="A."
         )
 
-        with pytest.raises(ValueError, match="Parent node 'non-existent' does not exist"):
+        with pytest.raises(
+            ValueError, match="Parent node 'non-existent' does not exist"
+        ):
             tree.add_node(node)
 
     def test_get_node_exists(self):
         """Test getting an existing node."""
         tree = Tree()
-        node = Node(
-            id="node-1",
-            parent_id="root",
-            user_question="Q?",
-            ai_answer="A."
-        )
+        node = Node(id="node-1", parent_id="root", user_question="Q?", ai_answer="A.")
         tree.add_node(node)
 
         retrieved = tree.get_node("node-1")
@@ -189,7 +169,7 @@ class TestTree:
                 id=f"child-{i}",
                 parent_id="root",
                 user_question=f"Q{i}?",
-                ai_answer=f"A{i}."
+                ai_answer=f"A{i}.",
             )
             tree.add_node(node)
 
@@ -203,12 +183,7 @@ class TestTree:
         """Test getting children when none exist."""
         tree = Tree()
 
-        node = Node(
-            id="leaf",
-            parent_id="root",
-            user_question="Q?",
-            ai_answer="A."
-        )
+        node = Node(id="leaf", parent_id="root", user_question="Q?", ai_answer="A.")
         tree.add_node(node)
 
         children = tree.get_children("leaf")
@@ -226,12 +201,7 @@ class TestTree:
     def test_get_path_to_root_direct_child(self):
         """Test path from direct child of root."""
         tree = Tree()
-        node = Node(
-            id="node-1",
-            parent_id="root",
-            user_question="Q?",
-            ai_answer="A."
-        )
+        node = Node(id="node-1", parent_id="root", user_question="Q?", ai_answer="A.")
         tree.add_node(node)
 
         path = tree.get_path_to_root("node-1")
@@ -243,9 +213,15 @@ class TestTree:
         tree = Tree()
 
         # Create chain: root -> node-1 -> node-2 -> node-3
-        node1 = Node(id="node-1", parent_id="root", user_question="Q1?", ai_answer="A1.")
-        node2 = Node(id="node-2", parent_id="node-1", user_question="Q2?", ai_answer="A2.")
-        node3 = Node(id="node-3", parent_id="node-2", user_question="Q3?", ai_answer="A3.")
+        node1 = Node(
+            id="node-1", parent_id="root", user_question="Q1?", ai_answer="A1."
+        )
+        node2 = Node(
+            id="node-2", parent_id="node-1", user_question="Q2?", ai_answer="A2."
+        )
+        node3 = Node(
+            id="node-3", parent_id="node-2", user_question="Q3?", ai_answer="A3."
+        )
 
         tree.add_node(node1)
         tree.add_node(node2)
@@ -294,7 +270,7 @@ class TestTree:
                 id=f"node-{i}",
                 parent_id="root",
                 user_question=f"Q{i}?",
-                ai_answer=f"A{i}."
+                ai_answer=f"A{i}.",
             )
             tree.add_node(node)
 
@@ -309,7 +285,7 @@ class TestCreateNode:
         node = create_node(
             parent_id="root",
             user_question="What is AI?",
-            ai_answer="AI is artificial intelligence."
+            ai_answer="AI is artificial intelligence.",
         )
 
         assert node.parent_id == "root"
@@ -322,10 +298,7 @@ class TestCreateNode:
         """Test node creation with metadata."""
         metadata = {"tag": "AI", "category": "tech"}
         node = create_node(
-            parent_id="root",
-            user_question="Q?",
-            ai_answer="A.",
-            metadata=metadata
+            parent_id="root", user_question="Q?", ai_answer="A.", metadata=metadata
         )
 
         assert node.metadata == metadata
@@ -336,7 +309,7 @@ class TestCreateNode:
             parent_id="root",
             user_question="Q?",
             ai_answer="A.",
-            node_id="custom-id-123"
+            node_id="custom-id-123",
         )
 
         assert node.id == "custom-id-123"
