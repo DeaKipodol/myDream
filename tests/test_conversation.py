@@ -3,6 +3,7 @@ ConversationManager 테스트.
 """
 
 import pytest
+
 from core.conversation import ConversationManager
 from core.store import Store
 
@@ -176,7 +177,7 @@ class TestGetCurrentNode:
         current = cm.get_current_node()
 
         assert current is not None
-        assert current.id == 'root'
+        assert current.id == "root"
 
     def test_get_current_node_after_turn(self):
         """턴 수행 후 현재 노드."""
@@ -207,15 +208,15 @@ class TestGetBranchPoints:
         node1 = cm.turn("Q1?", "A1.")
 
         # 분기 생성
-        cm.branch_from_node('root')
+        cm.branch_from_node("root")
         cm.turn("Q2?", "A2.")
 
         # root는 분기 포인트
-        cm.branch_from_node('root')
+        cm.branch_from_node("root")
         branch_points = cm.get_branch_points()
 
         assert len(branch_points) == 1
-        assert branch_points[0].id == 'root'
+        assert branch_points[0].id == "root"
 
     def test_multiple_branch_points(self):
         """여러 분기 포인트."""
@@ -226,7 +227,7 @@ class TestGetBranchPoints:
         node_b = cm.turn("QB?", "AB.")
 
         # root -> C (root는 분기 포인트)
-        cm.branch_from_node('root')
+        cm.branch_from_node("root")
         cm.turn("QC?", "AC.")
 
         # A -> D (A는 분기 포인트)
@@ -240,7 +241,7 @@ class TestGetBranchPoints:
         # root와 A가 분기 포인트
         assert len(branch_points) == 2
         branch_ids = {bp.id for bp in branch_points}
-        assert 'root' in branch_ids
+        assert "root" in branch_ids
         assert node_a.id in branch_ids
 
 
@@ -252,10 +253,10 @@ class TestGetStats:
         cm = ConversationManager()
         stats = cm.get_stats()
 
-        assert stats['total_turns'] == 0  # 루트 제외
-        assert stats['current_depth'] == 0
-        assert stats['total_nodes'] == 1  # root만
-        assert stats['checkpoints'] == 0
+        assert stats["total_turns"] == 0  # 루트 제외
+        assert stats["current_depth"] == 0
+        assert stats["total_nodes"] == 1  # root만
+        assert stats["checkpoints"] == 0
 
     def test_stats_after_turns(self):
         """턴 수행 후 통계."""
@@ -267,10 +268,10 @@ class TestGetStats:
 
         stats = cm.get_stats()
 
-        assert stats['total_turns'] == 2
-        assert stats['current_depth'] == 2
-        assert stats['total_nodes'] == 3
-        assert stats['checkpoints'] == 1
+        assert stats["total_turns"] == 2
+        assert stats["current_depth"] == 2
+        assert stats["total_nodes"] == 3
+        assert stats["checkpoints"] == 1
 
 
 class TestReset:
@@ -309,8 +310,8 @@ class TestConversationIntegration:
 
         # 통계 확인
         stats = cm.get_stats()
-        assert stats['total_turns'] == 3  # 전체 3턴
-        assert stats['current_depth'] == 2  # 현재 깊이 2
+        assert stats["total_turns"] == 3  # 전체 3턴
+        assert stats["current_depth"] == 2  # 현재 깊이 2
 
         # 분기 포인트 확인
         branch_points = cm.get_branch_points()
