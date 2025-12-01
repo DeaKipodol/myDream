@@ -3,8 +3,9 @@ Store 클래스에 대한 테스트.
 """
 
 import pytest
-from core.store import Store
+
 from core.models import Node
+from core.store import Store
 
 
 class TestStoreInitialization:
@@ -15,8 +16,8 @@ class TestStoreInitialization:
         store = Store()
 
         assert store.tree is not None
-        assert store.tree.root_id == 'root'
-        assert store.active_path_ids == ['root']
+        assert store.tree.root_id == "root"
+        assert store.active_path_ids == ["root"]
         assert store.checkpoints == {}
 
     def test_store_init_has_root(self):
@@ -25,7 +26,7 @@ class TestStoreInitialization:
 
         root_node = store.get_current_node()
         assert root_node is not None
-        assert root_node.id == 'root'
+        assert root_node.id == "root"
         assert root_node.parent_id is None
 
 
@@ -49,7 +50,7 @@ class TestStoreReset:
         store.reset()
 
         # 초기 상태로 복원됨
-        assert store.active_path_ids == ['root']
+        assert store.active_path_ids == ["root"]
         assert store.checkpoints == {}
         assert store.tree.get_node_count() == 1  # root only
 
@@ -73,10 +74,10 @@ class TestAddNode:
         store = Store()
 
         node1 = store.add_node("Q1?", "A1.")
-        assert store.active_path_ids == ['root', node1.id]
+        assert store.active_path_ids == ["root", node1.id]
 
         node2 = store.add_node("Q2?", "A2.")
-        assert store.active_path_ids == ['root', node1.id, node2.id]
+        assert store.active_path_ids == ["root", node1.id, node2.id]
 
     def test_add_node_with_metadata(self):
         """메타데이터와 함께 노드를 추가."""
@@ -106,7 +107,7 @@ class TestGetCurrentNode:
         """초기 상태의 현재 노드 ID는 'root'."""
         store = Store()
 
-        assert store.get_current_node_id() == 'root'
+        assert store.get_current_node_id() == "root"
 
     def test_get_current_node_after_add(self):
         """노드 추가 후 현재 노드 확인."""
@@ -126,7 +127,7 @@ class TestGetActivePath:
         path = store.get_active_path()
 
         assert len(path) == 1
-        assert path[0].id == 'root'
+        assert path[0].id == "root"
 
     def test_get_active_path_multiple_nodes(self):
         """여러 노드 추가 후 전체 경로 확인."""
@@ -138,7 +139,7 @@ class TestGetActivePath:
         path = store.get_active_path()
 
         assert len(path) == 3
-        assert path[0].id == 'root'
+        assert path[0].id == "root"
         assert path[1].id == node1.id
         assert path[2].id == node2.id
 
@@ -155,7 +156,7 @@ class TestSwitchToNode:
         node_b = store.add_node("Question B?", "Answer B.")
 
         # root로 돌아가서 새 분기 생성
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node_c = store.add_node("Question C?", "Answer C.")
 
         # 현재는 root -> C
@@ -165,7 +166,7 @@ class TestSwitchToNode:
         success = store.switch_to_node(node_b.id)
 
         assert success is True
-        assert store.active_path_ids == ['root', node_a.id, node_b.id]
+        assert store.active_path_ids == ["root", node_a.id, node_b.id]
 
     def test_switch_to_ancestor(self):
         """조상 노드로 전환."""
@@ -177,19 +178,19 @@ class TestSwitchToNode:
 
         # 현재: root -> 1 -> 2 -> 3
         # root로 전환
-        success = store.switch_to_node('root')
+        success = store.switch_to_node("root")
 
         assert success is True
-        assert store.active_path_ids == ['root']
+        assert store.active_path_ids == ["root"]
 
     def test_switch_to_invalid_node(self):
         """존재하지 않는 노드로 전환 시도."""
         store = Store()
 
-        success = store.switch_to_node('non-existent')
+        success = store.switch_to_node("non-existent")
 
         assert success is False
-        assert store.active_path_ids == ['root']  # 변경되지 않음
+        assert store.active_path_ids == ["root"]  # 변경되지 않음
 
 
 class TestCheckpoints:
@@ -246,7 +247,7 @@ class TestCheckpoints:
         node1 = store.add_node("Q1?", "A1.")
         store.save_checkpoint("cp1")
 
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node2 = store.add_node("Q2?", "A2.")
         store.save_checkpoint("cp2")
 
@@ -297,14 +298,14 @@ class TestGetChildrenOfCurrent:
         # root에 3개 자식 추가
         node1 = store.add_node("Q1?", "A1.")
 
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node2 = store.add_node("Q2?", "A2.")
 
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node3 = store.add_node("Q3?", "A3.")
 
         # root로 이동
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         children = store.get_children_of_current()
 
         assert len(children) == 3
@@ -353,7 +354,7 @@ class TestStoreIntegration:
         node_b = store.add_node("어디에 쓰여?", "웹, AI, 데이터 분석 등에 쓰입니다.")
 
         # 두 번째 경로: root -> C -> D
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node_c = store.add_node("Java는?", "Java는 객체지향 언어입니다.")
         store.save_checkpoint("자바")
 
@@ -370,7 +371,7 @@ class TestStoreIntegration:
         assert store.get_current_node_id() == node_a.id
 
         # 검증: root의 자식은 2개 (A, C)
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         children = store.get_children_of_current()
         assert len(children) == 2
 
