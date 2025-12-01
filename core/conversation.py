@@ -5,9 +5,10 @@
 핵심 원칙: 1턴 = 1노드
 """
 
-from typing import Optional, Dict
-from core.store import Store
+from typing import Dict, Optional
+
 from core.models import Node
+from core.store import Store
 
 
 class ConversationManager:
@@ -28,10 +29,7 @@ class ConversationManager:
         self.store = store if store is not None else Store()
 
     def turn(
-        self,
-        user_question: str,
-        ai_answer: str,
-        metadata: Optional[Dict] = None
+        self, user_question: str, ai_answer: str, metadata: Optional[Dict] = None
     ) -> Node:
         """
         대화 턴을 수행하고 자동으로 노드를 생성합니다.
@@ -71,12 +69,9 @@ class ConversationManager:
         path = self.store.get_active_path()
 
         # 루트 노드 제외
-        conversation_nodes = [node for node in path if node.id != 'root']
+        conversation_nodes = [node for node in path if node.id != "root"]
 
-        return [
-            (node.user_question, node.ai_answer)
-            for node in conversation_nodes
-        ]
+        return [(node.user_question, node.ai_answer) for node in conversation_nodes]
 
     def get_full_context(self) -> str:
         """
@@ -196,13 +191,13 @@ class ConversationManager:
         tree_stats = self.store.get_tree_stats()
 
         # 루트 제외한 실제 대화 턴 수
-        total_turns = tree_stats['total_nodes'] - 1
+        total_turns = tree_stats["total_nodes"] - 1
 
         return {
-            'total_turns': total_turns,
-            'current_depth': tree_stats['path_depth'] - 1,  # 루트 제외
-            'total_nodes': tree_stats['total_nodes'],
-            'checkpoints': tree_stats['checkpoints']
+            "total_turns": total_turns,
+            "current_depth": tree_stats["path_depth"] - 1,  # 루트 제외
+            "total_nodes": tree_stats["total_nodes"],
+            "checkpoints": tree_stats["checkpoints"],
         }
 
     def reset(self):

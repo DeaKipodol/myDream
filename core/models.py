@@ -4,10 +4,10 @@
 이 모듈은 대화 노드와 트리를 표현하는 기본 데이터 구조를 포함합니다.
 """
 
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Dict, List, Optional, Any
-import uuid
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -26,6 +26,7 @@ class Node:
         metadata: 추가 메타데이터 (태그 등)
         timestamp: 노드 생성 시각
     """
+
     id: str
     parent_id: Optional[str]
     user_question: str
@@ -54,7 +55,7 @@ class Tree:
     애플리케이션 상태는 담당하지 않습니다.
     """
 
-    def __init__(self, root_id: str = 'root'):
+    def __init__(self, root_id: str = "root"):
         """
         루트 노드를 가진 새로운 대화 트리를 초기화합니다.
 
@@ -70,7 +71,7 @@ class Tree:
             parent_id=None,
             user_question="[시스템]",
             ai_answer="대화를 시작합니다",
-            metadata={"type": "root"}
+            metadata={"type": "root"},
         )
 
     def add_node(self, node: Node) -> bool:
@@ -121,10 +122,7 @@ class Tree:
         if node_id not in self.nodes:
             return []
 
-        return [
-            node for node in self.nodes.values()
-            if node.parent_id == node_id
-        ]
+        return [node for node in self.nodes.values() if node.parent_id == node_id]
 
     def get_path_to_root(self, node_id: str) -> List[str]:
         """
@@ -179,7 +177,7 @@ def create_node(
     user_question: str,
     ai_answer: str,
     metadata: Optional[Dict[str, Any]] = None,
-    node_id: Optional[str] = None
+    node_id: Optional[str] = None,
 ) -> Node:
     """
     자동 생성된 ID를 가진 새 노드를 생성하는 헬퍼 함수.
@@ -205,5 +203,5 @@ def create_node(
         parent_id=parent_id,
         user_question=user_question,
         ai_answer=ai_answer,
-        metadata=metadata
+        metadata=metadata,
     )

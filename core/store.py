@@ -5,7 +5,8 @@
 """
 
 from typing import Dict, List, Optional
-from core.models import Tree, Node, create_node
+
+from core.models import Node, Tree, create_node
 
 
 class Store:
@@ -25,8 +26,8 @@ class Store:
 
     def __init__(self):
         """Store 초기화 - 새로운 트리와 루트 경로 생성."""
-        self.tree: Tree = Tree(root_id='root')
-        self.active_path_ids: List[str] = ['root']
+        self.tree: Tree = Tree(root_id="root")
+        self.active_path_ids: List[str] = ["root"]
         self.checkpoints: Dict[str, str] = {}
 
     def reset(self):
@@ -36,8 +37,8 @@ class Store:
         테스트 격리를 위해 사용됩니다.
         모든 상태를 초기화하고 새로운 트리를 생성합니다.
         """
-        self.tree = Tree(root_id='root')
-        self.active_path_ids = ['root']
+        self.tree = Tree(root_id="root")
+        self.active_path_ids = ["root"]
         self.checkpoints.clear()
 
     def get_current_node_id(self) -> str:
@@ -59,10 +60,7 @@ class Store:
         return self.tree.get_node(self.get_current_node_id())
 
     def add_node(
-        self,
-        user_question: str,
-        ai_answer: str,
-        metadata: Optional[Dict] = None
+        self, user_question: str, ai_answer: str, metadata: Optional[Dict] = None
     ) -> Node:
         """
         현재 노드의 자식으로 새 노드를 추가하고 활성 경로를 업데이트합니다.
@@ -85,7 +83,7 @@ class Store:
             parent_id=current_id,
             user_question=user_question,
             ai_answer=ai_answer,
-            metadata=metadata
+            metadata=metadata,
         )
 
         # 트리에 추가
@@ -210,5 +208,5 @@ class Store:
         return {
             "total_nodes": self.tree.get_node_count(),
             "path_depth": len(self.active_path_ids),
-            "checkpoints": len(self.checkpoints)
+            "checkpoints": len(self.checkpoints),
         }

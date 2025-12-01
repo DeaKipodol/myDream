@@ -4,10 +4,11 @@
 이 모듈은 체크포인트 생성, 검증, 분석 등의 유틸리티 기능을 제공합니다.
 """
 
-from typing import List, Dict, Optional
 from datetime import datetime
-from core.store import Store
+from typing import Dict, List, Optional
+
 from core.models import Node
+from core.store import Store
 
 
 def validate_checkpoint_name(name: str) -> tuple[bool, Optional[str]]:
@@ -34,7 +35,7 @@ def validate_checkpoint_name(name: str) -> tuple[bool, Optional[str]]:
         return False, "이름이 너무 깁니다 (최대 50자)"
 
     # 특수문자 제한 (공백, 특수기호 허용하지 않음)
-    if not name.replace('_', '').replace('-', '').isalnum():
+    if not name.replace("_", "").replace("-", "").isalnum():
         return False, "영문, 숫자, 언더스코어(_), 하이픈(-)만 사용 가능합니다"
 
     return True, None
@@ -59,7 +60,7 @@ def suggest_checkpoint_name(node: Node, existing_names: List[str]) -> str:
     base_name = node.user_question[:10].strip()
 
     # 특수문자를 언더스코어로 변경
-    base_name = ''.join(c if c.isalnum() or c in ('_', '-') else '_' for c in base_name)
+    base_name = "".join(c if c.isalnum() or c in ("_", "-") else "_" for c in base_name)
 
     # 중복 체크 및 번호 붙이기
     if base_name not in existing_names:
@@ -101,14 +102,14 @@ def get_checkpoint_info(store: Store, checkpoint_name: str) -> Optional[dict]:
     children = store.tree.get_children(node_id)
 
     return {
-        'name': checkpoint_name,
-        'node_id': node_id,
-        'depth': len(path) - 1,  # 루트 제외
-        'user_question': node.user_question,
-        'ai_answer': node.ai_answer[:50],  # 미리보기
-        'children_count': len(children),
-        'timestamp': node.timestamp,
-        'has_branches': len(children) >= 2
+        "name": checkpoint_name,
+        "node_id": node_id,
+        "depth": len(path) - 1,  # 루트 제외
+        "user_question": node.user_question,
+        "ai_answer": node.ai_answer[:50],  # 미리보기
+        "children_count": len(children),
+        "timestamp": node.timestamp,
+        "has_branches": len(children) >= 2,
     }
 
 
@@ -181,14 +182,16 @@ def export_checkpoints(store: Store) -> List[dict]:
     for name, node_id in checkpoints.items():
         node = store.tree.get_node(node_id)
         if node:
-            result.append({
-                'name': name,
-                'node_id': node_id,
-                'user_question': node.user_question,
-                'ai_answer': node.ai_answer,
-                'metadata': node.metadata,
-                'timestamp': node.timestamp.isoformat()
-            })
+            result.append(
+                {
+                    "name": name,
+                    "node_id": node_id,
+                    "user_question": node.user_question,
+                    "ai_answer": node.ai_answer,
+                    "metadata": node.metadata,
+                    "timestamp": node.timestamp.isoformat(),
+                }
+            )
 
     return result
 
@@ -213,11 +216,11 @@ def import_checkpoints(store: Store, data: List[dict]) -> tuple[int, List[str]]:
     failures = []
 
     for item in data:
-        name = item.get('name')
-        node_id = item.get('node_id')
+        name = item.get("name")
+        node_id = item.get("node_id")
 
         if not name or not node_id:
-            failures.append(name or 'unknown')
+            failures.append(name or "unknown")
             continue
 
         # 노드가 존재하는지 확인
@@ -256,11 +259,11 @@ def get_checkpoint_stats(store: Store) -> dict:
 
     if total == 0:
         return {
-            'total_count': 0,
-            'avg_depth': 0,
-            'max_depth': 0,
-            'min_depth': 0,
-            'branch_points': 0
+            "total_count": 0,
+            "avg_depth": 0,
+            "max_depth": 0,
+            "min_depth": 0,
+            "branch_points": 0,
         }
 
     depths = []
@@ -276,11 +279,11 @@ def get_checkpoint_stats(store: Store) -> dict:
             branch_count += 1
 
     return {
-        'total_count': total,
-        'avg_depth': sum(depths) / total if total > 0 else 0,
-        'max_depth': max(depths) if depths else 0,
-        'min_depth': min(depths) if depths else 0,
-        'branch_points': branch_count
+        "total_count": total,
+        "avg_depth": sum(depths) / total if total > 0 else 0,
+        "max_depth": max(depths) if depths else 0,
+        "min_depth": min(depths) if depths else 0,
+        "branch_points": branch_count,
     }
 
 
@@ -310,7 +313,9 @@ def cleanup_orphaned_checkpoints(store: Store) -> int:
     return len(orphaned)
 
 
-def rename_checkpoint(store: Store, old_name: str, new_name: str) -> tuple[bool, Optional[str]]:
+def rename_checkpoint(
+    store: Store, old_name: str, new_name: str
+) -> tuple[bool, Optional[str]]:
     """
     체크포인트 이름을 변경합니다.
 

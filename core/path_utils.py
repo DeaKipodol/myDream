@@ -5,6 +5,7 @@
 """
 
 from typing import List, Optional, Tuple
+
 from core.models import Node, Tree
 from core.store import Store
 
@@ -32,7 +33,7 @@ def format_path(path: List[Node], show_indices: bool = True) -> str:
 
     lines = []
     for idx, node in enumerate(path):
-        if node.id == 'root':
+        if node.id == "root":
             prefix = f"[{idx}] " if show_indices else ""
             lines.append(f"{prefix}root")
         else:
@@ -91,12 +92,12 @@ def get_path_summary(store: Store) -> dict:
     branch_points = find_branch_points(store.tree, path_ids)
 
     return {
-        'depth': len(path) - 1,  # 루트 제외
-        'total_nodes': len(path),
-        'has_branches': len(branch_points) > 0,
-        'branch_count': len(branch_points),
-        'current_node_id': store.get_current_node_id(),
-        'path_ids': path_ids.copy()
+        "depth": len(path) - 1,  # 루트 제외
+        "total_nodes": len(path),
+        "has_branches": len(branch_points) > 0,
+        "branch_count": len(branch_points),
+        "current_node_id": store.get_current_node_id(),
+        "path_ids": path_ids.copy(),
     }
 
 
@@ -130,11 +131,11 @@ def compare_paths(path1_ids: List[str], path2_ids: List[str]) -> dict:
     diverge_index = common_length
 
     return {
-        'common_ancestor': common_ancestor,
-        'diverge_index': diverge_index,
-        'common_path': path1_ids[:common_length],
-        'path1_unique': path1_ids[common_length:],
-        'path2_unique': path2_ids[common_length:]
+        "common_ancestor": common_ancestor,
+        "diverge_index": diverge_index,
+        "common_path": path1_ids[:common_length],
+        "path1_unique": path1_ids[common_length:],
+        "path2_unique": path2_ids[common_length:],
     }
 
 
@@ -215,7 +216,7 @@ def find_path_between(tree: Tree, from_id: str, to_id: str) -> Optional[List[str
     return path_up + [lca] + path_down
 
 
-def get_tree_visualization_data(tree: Tree, root_id: str = 'root') -> List[dict]:
+def get_tree_visualization_data(tree: Tree, root_id: str = "root") -> List[dict]:
     """
     트리 시각화를 위한 데이터를 생성합니다.
 
@@ -240,15 +241,17 @@ def get_tree_visualization_data(tree: Tree, root_id: str = 'root') -> List[dict]
 
         children = tree.get_children(node_id)
 
-        result.append({
-            'node_id': node_id,
-            'level': level,
-            'children_count': len(children),
-            'user_question': node.user_question,
-            'ai_answer': node.ai_answer,
-            'is_leaf': len(children) == 0,
-            'has_branches': len(children) >= 2
-        })
+        result.append(
+            {
+                "node_id": node_id,
+                "level": level,
+                "children_count": len(children),
+                "user_question": node.user_question,
+                "ai_answer": node.ai_answer,
+                "is_leaf": len(children) == 0,
+                "has_branches": len(children) >= 2,
+            }
+        )
 
         for child in children:
             traverse(child.id, level + 1)
