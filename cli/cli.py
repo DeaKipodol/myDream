@@ -3,11 +3,11 @@ CLI REPL 메인 루프.
 
 이 모듈은 대화 트리 관리를 위한 대화형 커맨드 라인 인터페이스를 제공합니다.
 """
-import readline
 
 # (선택 사항) 위/아래 화살표로 이전 명령어 기록(History) 보기 기능 활성화
 import atexit
 import os
+import readline
 from datetime import datetime
 
 histfile = os.path.join(os.path.expanduser("~"), ".cli_history")
@@ -19,26 +19,28 @@ except FileNotFoundError:
 atexit.register(readline.write_history_file, histfile)
 import sys
 from typing import Optional
-from core.store import Store
-from core.conversation import ConversationManager
-from core.checkpoint import (
-    validate_checkpoint_name,
-    suggest_checkpoint_name,
-    list_checkpoints_detailed,
-    get_checkpoint_stats
-)
-from core.path_utils import format_path, get_path_summary
+
 from cli.visualizer import (
-    visualize_tree,
-    visualize_path,
     visualize_node_detail,
+    visualize_path,
     visualize_siblings,
-    visualize_stats
+    visualize_stats,
+    visualize_tree,
 )
+from core.checkpoint import (
+    get_checkpoint_stats,
+    list_checkpoints_detailed,
+    suggest_checkpoint_name,
+    validate_checkpoint_name,
+)
+from core.conversation import ConversationManager
+from core.path_utils import format_path, get_path_summary
+from core.store import Store
 
 # AI 클라이언트는 선택적으로 import (API 키 없어도 CLI는 작동)
 try:
     from core.ai_client import AIClient
+
     AI_AVAILABLE = True
 except (ImportError, ValueError) as e:
     AI_AVAILABLE = False
@@ -71,7 +73,9 @@ class CLI:
                 self.ai_error = str(e)
         else:
             self.ai_enabled = False
-            self.ai_error = AI_ERROR if not AI_AVAILABLE else "AI 클라이언트를 사용할 수 없습니다."
+            self.ai_error = (
+                AI_ERROR if not AI_AVAILABLE else "AI 클라이언트를 사용할 수 없습니다."
+            )
 
     def start(self):
         """REPL 메인 루프 시작."""
@@ -113,8 +117,8 @@ class CLI:
             user_input: 사용자가 입력한 명령어
         """
         # / 없이도 명령어 사용 가능하도록 개선
-        if not user_input.startswith('/'):
-            user_input = '/' + user_input
+        if not user_input.startswith("/"):
+            user_input = "/" + user_input
 
         parts = user_input.split(maxsplit=1)
         command = parts[0].lower()
@@ -122,24 +126,24 @@ class CLI:
 
         # 명령어 라우팅
         command_map = {
-            '/help': self.cmd_help,
-            '/exit': self.cmd_exit,
-            '/quit': self.cmd_exit,
-            '/ask': self.cmd_ask,
-            '/turn': self.cmd_turn,
-            '/checkpoint': self.cmd_checkpoint,
-            '/cp': self.cmd_checkpoint,  # 별칭
-            '/tree': self.cmd_tree,
-            '/path': self.cmd_path,
-            '/switch': self.cmd_switch,
-            '/back': self.cmd_back,
-            '/history': self.cmd_history,
-            '/visits': self.cmd_visits,
-            '/stats': self.cmd_stats,
-            '/node': self.cmd_node,
-            '/siblings': self.cmd_siblings,
-            '/nodes': self.cmd_nodes,
-            '/list': self.cmd_nodes,  # 별칭
+            "/help": self.cmd_help,
+            "/exit": self.cmd_exit,
+            "/quit": self.cmd_exit,
+            "/ask": self.cmd_ask,
+            "/turn": self.cmd_turn,
+            "/checkpoint": self.cmd_checkpoint,
+            "/cp": self.cmd_checkpoint,  # 별칭
+            "/tree": self.cmd_tree,
+            "/path": self.cmd_path,
+            "/switch": self.cmd_switch,
+            "/back": self.cmd_back,
+            "/history": self.cmd_history,
+            "/visits": self.cmd_visits,
+            "/stats": self.cmd_stats,
+            "/node": self.cmd_node,
+            "/siblings": self.cmd_siblings,
+            "/nodes": self.cmd_nodes,
+            "/list": self.cmd_nodes,  # 별칭
         }
 
         handler = command_map.get(command)
@@ -160,7 +164,7 @@ class CLI:
         all_nodes = list(self.store.tree.nodes.values())
 
         # root 제외하고 ID로 정렬하여 일관성 유지
-        non_root_nodes = [n for n in all_nodes if n.id != 'root']
+        non_root_nodes = [n for n in all_nodes if n.id != "root"]
         non_root_nodes.sort(key=lambda n: n.id)
 
         # 매핑 재구축
@@ -189,7 +193,7 @@ class CLI:
         ref = ref.strip().lower()
 
         # 노드 번호 형식 (n1, n2 등)
-        if ref.startswith('n'):
+        if ref.startswith("n"):
             try:
                 num = int(ref[1:])
                 # 인덱스 갱신
@@ -264,6 +268,31 @@ class CLI:
             return f"{seconds // 3600}시간 전"
         else:
             return f"{seconds // 86400}일 전"
+
+    def _save_navigation_history(self):
+        """
+        현재 위치를 navigation history에 저장.
+
+        노드 전환 시 호출하여 이전 위치를 기록합니다.
+        루트 노드는 저장하지 않으며, 최근 20개만 유지합니다.
+        """
+        current = self.store.get_current_node()
+        if current and current.id != "root":
+            self.navigation_history.append(
+                {
+                    "timestamp": datetime.now(),
+                    "node_id": current.id,
+                    "question": (
+                        current.user_question[:60]
+                        if current.user_question
+                        else "(대화 없음)"
+                    ),
+                }
+            )
+
+            # 최근 20개만 유지
+            if len(self.navigation_history) > 20:
+                self.navigation_history.pop(0)
 
     # ==================== 명령어 핸들러 ====================
 
@@ -341,7 +370,7 @@ class CLI:
                 answer = self.ai_client.ask_with_context(
                     question,
                     f"이전 대화 맥락:\n{context}",
-                    system_prompt="당신은 친절한 AI 상담사입니다. 이전 대화 맥락을 고려하여 답변하세요."
+                    system_prompt="당신은 친절한 AI 상담사입니다. 이전 대화 맥락을 고려하여 답변하세요.",
                 )
             else:
                 # 맥락이 없으면 단순 질문
@@ -370,12 +399,12 @@ class CLI:
             return
 
         # '|'로 질문과 답변 분리
-        if '|' not in args:
+        if "|" not in args:
             print("❌ 질문과 답변을 '|'로 구분해야 합니다.")
             print("   예시: turn Python이 뭐야? | Python은 프로그래밍 언어입니다.")
             return
 
-        parts = args.split('|', 1)
+        parts = args.split("|", 1)
         question = parts[0].strip()
         answer = parts[1].strip()
 
@@ -414,13 +443,13 @@ class CLI:
         action = parts[0].lower()
         name = parts[1] if len(parts) > 1 else ""
 
-        if action == 'save':
+        if action == "save":
             self._checkpoint_save(name)
-        elif action == 'load':
+        elif action == "load":
             self._checkpoint_load(name)
-        elif action == 'list':
+        elif action == "list":
             self._checkpoint_list()
-        elif action == 'delete' or action == 'del':
+        elif action == "delete" or action == "del":
             self._checkpoint_delete(name)
         else:
             print(f"❌ 알 수 없는 체크포인트 명령: {action}")
@@ -435,8 +464,10 @@ class CLI:
                 existing = list(self.store.list_checkpoints().keys())
                 name = suggest_checkpoint_name(current_node, existing)
                 print(f"💡 제안된 이름: {name}")
-                confirm = input(f"   이 이름으로 저장하시겠습니까? (y/n): ").strip().lower()
-                if confirm != 'y':
+                confirm = (
+                    input(f"   이 이름으로 저장하시겠습니까? (y/n): ").strip().lower()
+                )
+                if confirm != "y":
                     return
             else:
                 print("❌ 체크포인트 이름을 입력하세요.")
@@ -460,6 +491,9 @@ class CLI:
             print("❌ 체크포인트 이름을 입력하세요.")
             return
 
+        # 📜 이동 이력 저장 (전환 전 현재 위치)
+        self._save_navigation_history()
+
         if self.store.load_checkpoint(name):
             print(f"✅ 체크포인트 '{name}'으로 이동했습니다.")
             self._show_current_position()
@@ -471,8 +505,8 @@ class CLI:
         checkpoints = list_checkpoints_detailed(self.store)
 
         # 체크포인트를 타입별로 분류
-        manual_cps = [cp for cp in checkpoints if not cp['name'].startswith('@branch_')]
-        branch_cps = [cp for cp in checkpoints if cp['name'].startswith('@branch_')]
+        manual_cps = [cp for cp in checkpoints if not cp["name"].startswith("@branch_")]
+        branch_cps = [cp for cp in checkpoints if cp["name"].startswith("@branch_")]
 
         has_any = manual_cps or branch_cps or self.navigation_history
 
@@ -498,8 +532,8 @@ class CLI:
             for cp in branch_cps:
                 # 노드 번호 찾기
                 self._build_node_index()
-                node_id = self.store.list_checkpoints().get(cp['name'])
-                num = self.node_reverse_index.get(node_id, '?') if node_id else '?'
+                node_id = self.store.list_checkpoints().get(cp["name"])
+                num = self.node_reverse_index.get(node_id, "?") if node_id else "?"
 
                 print(f"  • {cp['name']} → n{num}")
                 print(f"    질문: {cp['user_question'][:60]}")
@@ -511,12 +545,12 @@ class CLI:
             print(f"\n[최근 방문] ({len(self.navigation_history)}개) 📜")
             # 최근 5개만 표시
             for entry in reversed(self.navigation_history[-5:]):
-                elapsed = datetime.now() - entry['timestamp']
+                elapsed = datetime.now() - entry["timestamp"]
                 time_str = self._format_elapsed_time(elapsed)
 
                 # 노드 번호 찾기
                 self._build_node_index()
-                num = self.node_reverse_index.get(entry['node_id'], '?')
+                num = self.node_reverse_index.get(entry["node_id"], "?")
 
                 print(f"  • n{num} - {entry['question']} ({time_str})")
 
@@ -547,15 +581,15 @@ class CLI:
 
         if args:
             parts = args.lower().split()
-            if 'nocheckpoint' in parts or 'nocp' in parts:
+            if "nocheckpoint" in parts or "nocp" in parts:
                 show_checkpoints = False
-            if 'nopath' in parts:
+            if "nopath" in parts:
                 highlight_path = False
             # 깊이 제한 찾기
             for part in parts:
-                if part.startswith('depth='):
+                if part.startswith("depth="):
                     try:
-                        max_depth = int(part.split('=')[1])
+                        max_depth = int(part.split("=")[1])
                     except (ValueError, IndexError):
                         print("❌ depth 옵션 형식이 잘못되었습니다 (예: depth=3)")
                         return
@@ -564,7 +598,7 @@ class CLI:
             self.store,
             highlight_path=highlight_path,
             show_checkpoints=show_checkpoints,
-            max_depth=max_depth
+            max_depth=max_depth,
         )
         print("\n" + output)
 
@@ -572,7 +606,7 @@ class CLI:
         """현재 경로 정보 출력."""
         # 옵션 파싱: content 옵션으로 노드 내용까지 표시
         show_content = False
-        if args and 'content' in args.lower():
+        if args and "content" in args.lower():
             show_content = True
 
         output = visualize_path(self.store, show_content=show_content)
@@ -590,17 +624,7 @@ class CLI:
         ref = args.strip()
 
         # 📜 이동 이력 저장 (전환 전 현재 위치)
-        current = self.store.get_current_node()
-        if current and current.id != 'root':
-            self.navigation_history.append({
-                'timestamp': datetime.now(),
-                'node_id': current.id,
-                'question': current.user_question[:60] if current.user_question else "(대화 없음)"
-            })
-
-            # 최근 20개만 유지
-            if len(self.navigation_history) > 20:
-                self.navigation_history.pop(0)
+        self._save_navigation_history()
 
         # 노드 참조를 실제 ID로 변환
         node_id = self._resolve_node_reference(ref)
@@ -615,8 +639,10 @@ class CLI:
                 # 인덱스 갱신
                 self._build_node_index()
                 for node in matching_nodes[:5]:  # 최대 5개만 표시
-                    preview = node.user_question[:40] if node.user_question else "(루트)"
-                    num = self.node_reverse_index.get(node.id, '?')
+                    preview = (
+                        node.user_question[:40] if node.user_question else "(루트)"
+                    )
+                    num = self.node_reverse_index.get(node.id, "?")
                     print(f"   • n{num} - {node.id[:12]}... - {preview}")
                 if len(matching_nodes) > 5:
                     print(f"   ... 외 {len(matching_nodes) - 5}개")
@@ -630,7 +656,7 @@ class CLI:
         if self.store.switch_to_node(node_id):
             # 노드 번호 표시를 위해 인덱스 갱신
             self._build_node_index()
-            num = self.node_reverse_index.get(node_id, '?')
+            num = self.node_reverse_index.get(node_id, "?")
             print(f"✅ 노드 n{num} ({node_id[:8]}...)로 전환했습니다.")
             self._show_current_position()
         else:
@@ -665,7 +691,7 @@ class CLI:
         last = self.navigation_history.pop()
 
         # 해당 노드로 전환
-        if self.store.switch_to_node(last['node_id']):
+        if self.store.switch_to_node(last["node_id"]):
             print(f"✅ 이전 위치로 돌아갔습니다.")
             print(f"   질문: {last['question']}")
             self._show_current_position()
@@ -686,12 +712,12 @@ class CLI:
 
         # 최근 것부터 표시 (역순)
         for i, entry in enumerate(reversed(self.navigation_history[-10:]), 1):
-            elapsed = datetime.now() - entry['timestamp']
+            elapsed = datetime.now() - entry["timestamp"]
             time_str = self._format_elapsed_time(elapsed)
 
             # 노드 번호 찾기
             self._build_node_index()
-            num = self.node_reverse_index.get(entry['node_id'], '?')
+            num = self.node_reverse_index.get(entry["node_id"], "?")
 
             print(f"  {i}. n{num} - {entry['question']} ({time_str})")
 
@@ -774,7 +800,9 @@ class CLI:
                 marker = "👉 " if node_id == current_id else "   "
 
                 # 질문 미리보기
-                preview = node.user_question[:60] if node.user_question else "(대화 없음)"
+                preview = (
+                    node.user_question[:60] if node.user_question else "(대화 없음)"
+                )
 
                 # 자식 노드 수
                 children = self.store.tree.get_children(node_id)
@@ -790,10 +818,10 @@ class CLI:
     def _show_current_position(self):
         """현재 위치 정보 출력."""
         current_node = self.store.get_current_node()
-        if current_node and current_node.id != 'root':
+        if current_node and current_node.id != "root":
             # 노드 번호 가져오기
             self._build_node_index()
-            num = self.node_reverse_index.get(current_node.id, '?')
+            num = self.node_reverse_index.get(current_node.id, "?")
 
             print(f"\n현재 위치:")
             print(f"  노드: n{num} ({current_node.id[:8]}...)")

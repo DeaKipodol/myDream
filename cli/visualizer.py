@@ -4,8 +4,9 @@
 대화 트리를 다양한 형식으로 시각화하여 출력합니다.
 """
 
-from typing import List, Dict, Optional, Set
-from core.models import Tree, Node
+from typing import Dict, List, Optional, Set
+
+from core.models import Node, Tree
 from core.store import Store
 
 
@@ -13,7 +14,7 @@ def visualize_tree(
     store: Store,
     highlight_path: bool = True,
     show_checkpoints: bool = True,
-    max_depth: Optional[int] = None
+    max_depth: Optional[int] = None,
 ) -> str:
     """
     대화 트리를 ASCII 아트로 시각화합니다.
@@ -48,14 +49,14 @@ def visualize_tree(
     # 루트부터 시작하여 재귀적으로 렌더링
     _render_node(
         tree=tree,
-        node_id='root',
+        node_id="root",
         lines=lines,
         prefix="",
         is_last=True,
         active_ids=active_ids,
         checkpoint_map=checkpoint_map,
         current_depth=0,
-        max_depth=max_depth
+        max_depth=max_depth,
     )
 
     return "\n".join(lines)
@@ -70,7 +71,7 @@ def _render_node(
     active_ids: Set[str],
     checkpoint_map: Dict[str, str],
     current_depth: int,
-    max_depth: Optional[int]
+    max_depth: Optional[int],
 ):
     """
     노드를 재귀적으로 렌더링합니다.
@@ -101,7 +102,7 @@ def _render_node(
     if node_id in checkpoint_map:
         checkpoint_marker = f" 📌{checkpoint_map[node_id]}"
 
-    if node_id == 'root':
+    if node_id == "root":
         line = f"🌱 ROOT{checkpoint_marker}"
     else:
         node_id_short = node_id[:8]
@@ -118,10 +119,10 @@ def _render_node(
         return
 
     for i, child_node in enumerate(children):
-        is_last_child = (i == len(children) - 1)
+        is_last_child = i == len(children) - 1
 
         # 다음 레벨 접두사 계산
-        if node_id == 'root':
+        if node_id == "root":
             next_prefix = ""
         else:
             if is_last:
@@ -138,7 +139,7 @@ def _render_node(
             active_ids=active_ids,
             checkpoint_map=checkpoint_map,
             current_depth=current_depth + 1,
-            max_depth=max_depth
+            max_depth=max_depth,
         )
 
 
@@ -172,7 +173,7 @@ def visualize_path(store: Store, show_content: bool = False) -> str:
     lines.append("")
 
     for i, node in enumerate(path):
-        if node.id == 'root':
+        if node.id == "root":
             lines.append(f"[{i}] 🌱 ROOT")
         else:
             node_id_short = node.id[:8]
@@ -244,7 +245,7 @@ def visualize_node_detail(store: Store, node_id: str) -> str:
         lines.append("")
 
     # 노드 내용
-    if node.id != 'root':
+    if node.id != "root":
         lines.append("질문:")
         lines.append(f"  {node.user_question}")
         lines.append("")
@@ -328,8 +329,8 @@ def visualize_stats(store: Store) -> str:
         최대 깊이: 5
         ...
     """
-    from core.conversation import ConversationManager
     from core.checkpoint import get_checkpoint_stats
+    from core.conversation import ConversationManager
     from core.path_utils import find_branch_points
 
     conv = ConversationManager(store)
@@ -354,7 +355,7 @@ def visualize_stats(store: Store) -> str:
 
     lines.append("[체크포인트]")
     lines.append(f"  전체 개수: {cp_stats['total_count']}")
-    if cp_stats['total_count'] > 0:
+    if cp_stats["total_count"] > 0:
         lines.append(f"  평균 깊이: {cp_stats['avg_depth']:.1f}")
         lines.append(f"  최대 깊이: {cp_stats['max_depth']}")
         lines.append(f"  최소 깊이: {cp_stats['min_depth']}")
