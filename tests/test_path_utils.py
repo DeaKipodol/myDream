@@ -3,13 +3,19 @@ path_utils 모듈 테스트.
 """
 
 import pytest
+
+from core.models import create_node
 from core.path_utils import (
-    format_path, find_branch_points, get_path_summary,
-    compare_paths, get_siblings, find_path_between,
-    get_leaf_nodes, get_path_depth
+    compare_paths,
+    find_branch_points,
+    find_path_between,
+    format_path,
+    get_leaf_nodes,
+    get_path_depth,
+    get_path_summary,
+    get_siblings,
 )
 from core.store import Store
-from core.models import create_node
 
 
 class TestFormatPath:
@@ -46,12 +52,12 @@ class TestFindBranchPoints:
         """분기가 있는 경로."""
         store = Store()
         store.add_node("Q1?", "A1.")
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         store.add_node("Q2?", "A2.")
 
-        branch_points = find_branch_points(store.tree, ['root'])
+        branch_points = find_branch_points(store.tree, ["root"])
 
-        assert 'root' in branch_points
+        assert "root" in branch_points
 
 
 class TestGetPathSummary:
@@ -62,9 +68,9 @@ class TestGetPathSummary:
         store = Store()
         summary = get_path_summary(store)
 
-        assert summary['depth'] == 0
-        assert summary['total_nodes'] == 1
-        assert summary['has_branches'] is False
+        assert summary["depth"] == 0
+        assert summary["total_nodes"] == 1
+        assert summary["has_branches"] is False
 
     def test_summary_with_nodes(self):
         """노드 추가 후 요약."""
@@ -73,8 +79,8 @@ class TestGetPathSummary:
 
         summary = get_path_summary(store)
 
-        assert summary['depth'] == 1
-        assert summary['total_nodes'] == 2
+        assert summary["depth"] == 1
+        assert summary["total_nodes"] == 2
 
 
 class TestComparePaths:
@@ -82,19 +88,19 @@ class TestComparePaths:
 
     def test_identical_paths(self):
         """동일한 경로."""
-        result = compare_paths(['root', 'A', 'B'], ['root', 'A', 'B'])
+        result = compare_paths(["root", "A", "B"], ["root", "A", "B"])
 
-        assert result['common_ancestor'] == 'B'
-        assert result['diverge_index'] == 3
+        assert result["common_ancestor"] == "B"
+        assert result["diverge_index"] == 3
 
     def test_diverging_paths(self):
         """분기하는 경로."""
-        result = compare_paths(['root', 'A', 'B'], ['root', 'A', 'C'])
+        result = compare_paths(["root", "A", "B"], ["root", "A", "C"])
 
-        assert result['common_ancestor'] == 'A'
-        assert result['diverge_index'] == 2
-        assert result['path1_unique'] == ['B']
-        assert result['path2_unique'] == ['C']
+        assert result["common_ancestor"] == "A"
+        assert result["diverge_index"] == 2
+        assert result["path1_unique"] == ["B"]
+        assert result["path2_unique"] == ["C"]
 
 
 class TestGetSiblings:
@@ -113,7 +119,7 @@ class TestGetSiblings:
         """형제가 있는 경우."""
         store = Store()
         node1 = store.add_node("Q1?", "A1.")
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node2 = store.add_node("Q2?", "A2.")
 
         siblings = get_siblings(store.tree, node1.id)
@@ -142,12 +148,12 @@ class TestFindPathBetween:
         node_a = store.add_node("QA?", "AA.")
         node_b = store.add_node("QB?", "AB.")
 
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node_c = store.add_node("QC?", "AC.")
 
         path = find_path_between(store.tree, node_b.id, node_c.id)
 
-        assert 'root' in path
+        assert "root" in path
         assert node_b.id in path
         assert node_c.id in path
 
@@ -169,7 +175,7 @@ class TestGetLeafNodes:
         """여러 리프."""
         store = Store()
         node1 = store.add_node("Q1?", "A1.")
-        store.switch_to_node('root')
+        store.switch_to_node("root")
         node2 = store.add_node("Q2?", "A2.")
 
         leaves = get_leaf_nodes(store.tree)
@@ -183,7 +189,7 @@ class TestGetPathDepth:
     def test_root_depth(self):
         """루트의 깊이는 0."""
         store = Store()
-        depth = get_path_depth(store.tree, 'root')
+        depth = get_path_depth(store.tree, "root")
 
         assert depth == 0
 
