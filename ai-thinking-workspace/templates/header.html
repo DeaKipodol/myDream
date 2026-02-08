@@ -1,0 +1,37 @@
+<!-- templates/header.html -->
+<!-- 모듈 A: 헤더 템플릿 -->
+<!-- #header-slot에 주입됨 -->
+
+<header class="app-header">
+  <div class="header-left">
+    <div class="logo" id="app-logo">
+      <span class="logo-icon" aria-hidden="true">🧠</span>
+    </div>
+
+    <!-- 작업공간 선택기 -->
+    <div class="workspace-selector" id="workspace-selector">
+      <button
+        class="workspace-selector-btn"
+        id="workspace-selector-btn"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+      >
+        <span class="workspace-name" id="current-workspace-name">마케팅 전략</span>
+        <span class="workspace-chevron" aria-hidden="true"></span>
+      </button>
+
+      <!-- 드롭다운 컨테이너 (내용은 모듈 C가 주입) -->
+      <div class="workspace-dropdown" id="workspace-dropdown" role="listbox" hidden>
+        <!-- 모듈 C에서 동적 렌더링 -->
+      </div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <!-- 설정 슬롯 (모듈 D가 주입) -->
+    <div id="settings-slot"></div>
+
+    <!-- 계정 슬롯 (모듈 D가 주입) -->
+    <div id="account-slot"></div>
+  </div>
+</header>

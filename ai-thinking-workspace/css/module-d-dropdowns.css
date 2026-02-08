@@ -1,0 +1,269 @@
+/* ========================================
+   모듈 D: 설정/계정 드롭다운 스타일
+   ======================================== */
+
+/* ========================================
+   헤더 드롭다운 래퍼
+   ======================================== */
+
+.header-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* ========================================
+   헤더 드롭다운 공통
+   ======================================== */
+
+.header-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  padding: 6px;
+  background: var(--bg-dropdown);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--shadow-lg);
+  z-index: 1000;
+  animation: dropdown-fade-in 0.15s ease;
+}
+
+.header-dropdown[hidden] {
+  display: none;
+}
+
+/* 계정 드롭다운은 더 넓게 */
+.header-dropdown.account-dropdown {
+  min-width: 240px;
+}
+
+/* 드롭다운 페이드인 애니메이션 */
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   드롭다운 구분선
+   ======================================== */
+
+.dropdown-divider {
+  height: 1px;
+  margin: 6px 0;
+  background: var(--border-light);
+}
+
+/* ========================================
+   드롭다운 메뉴 항목
+   ======================================== */
+
+.dropdown-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s ease;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.dropdown-menu-item:hover {
+  background: var(--bg-hover);
+}
+
+.dropdown-menu-item:focus-visible {
+  outline: none;
+  background: var(--bg-hover);
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.dropdown-menu-item .icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.dropdown-menu-item span {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.dropdown-menu-item .icon-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+}
+
+/* 위험한 액션 (로그아웃) */
+.dropdown-menu-item.danger {
+  color: var(--danger);
+}
+
+.dropdown-menu-item.danger .icon {
+  color: var(--danger);
+}
+
+.dropdown-menu-item.danger span {
+  color: var(--danger);
+}
+
+.dropdown-menu-item.danger:hover {
+  background: rgba(220, 107, 94, 0.1);
+}
+
+/* 배지 (테마 현재 상태) */
+.dropdown-menu-badge {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 2px 8px;
+  background: var(--bg-badge);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   계정 드롭다운 - 사용자 헤더
+   ======================================== */
+
+.dropdown-user-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.dropdown-user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--avatar-bg, #E8B86D);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.dropdown-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.dropdown-user-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-user-email {
+  font-size: 13px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========================================
+   헤더 아이콘 버튼 (계정 버튼용)
+   ======================================== */
+
+.header-icon-btn.account-btn {
+  padding: 0;
+  width: 36px;
+  height: 36px;
+}
+
+.account-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--avatar-bg, #E8B86D);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* 아바타 색상 variants */
+.account-avatar[data-color="orange"] {
+  background: #E8B86D;
+}
+
+.account-avatar[data-color="blue"] {
+  background: #5B8DEF;
+}
+
+.account-avatar[data-color="green"] {
+  background: #4CAF50;
+}
+
+.account-avatar[data-color="purple"] {
+  background: #9C27B0;
+}
+
+.account-avatar[data-color="red"] {
+  background: #EF5350;
+}
+
+/* ========================================
+   버튼 활성 상태 (드롭다운 열려있을 때)
+   ======================================== */
+
+.header-icon-btn[aria-expanded="true"] {
+  background: var(--bg-active);
+}
+
+/* ========================================
+   반응형
+   ======================================== */
+
+@media (max-width: 600px) {
+  .header-dropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 12px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .header-dropdown.account-dropdown {
+    min-width: 100%;
+  }
+
+  .dropdown-menu-item {
+    padding: 14px 16px;
+    min-height: 48px;
+  }
+}

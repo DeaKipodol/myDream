@@ -3,14 +3,11 @@
 # (실수로 커밋 방지용 - 이 폴더들은 프라이빗 레포에만 존재)
 # ============================================
 What_I_wanted/
-ai-thinking-workspace/
-ai-thinking-workspace */
 docs_private/
 docs/_3_현재작업폴더/
 docs/_4_이전작업폴더/
 docs/특허/
 docs/현재작업폴더/
-design/
 .claude/
 
 # 검토 필요 (현재는 제외)
@@ -83,8 +80,3 @@ venv/
 *.tmp
 *.log
 *.bak
-
-PersonaDiscussion/
-ai-thinking-workspace/
-design/
-docs/_대회제출_사업계획서/

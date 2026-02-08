@@ -1,0 +1,12 @@
+# 로고 파일을 여기에 저장합니다.
+#
+# 지원 형식:
+# - logo.png
+# - logo.svg
+# - logo.webp
+#
+# 로고 변경 방법:
+# 1. 이 폴더에 로고 파일 추가
+# 2. js/_init.js의 LOGO_CONFIG 수정:
+#    - type: 'image'
+#    - imagePath: 'assets/logo/logo.png'

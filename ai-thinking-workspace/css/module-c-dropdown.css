@@ -1,0 +1,230 @@
+/* ========================================
+   모듈 C: 작업공간 드롭다운
+   ======================================== */
+
+/* 드롭다운 숨김 상태 */
+.workspace-dropdown[hidden] {
+  display: none;
+}
+
+/* 드롭다운 애니메이션 */
+.workspace-dropdown {
+  animation: dropdown-fade-in 0.15s ease;
+}
+
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   검색 영역
+   ======================================== */
+
+.dropdown-search {
+  position: relative;
+  padding: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.dropdown-search-icon {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.dropdown-search-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-input);
+  font-size: 14px;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  transition: border-color 0.15s ease;
+}
+
+.dropdown-search-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.dropdown-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ========================================
+   작업공간 목록
+   ======================================== */
+
+.dropdown-list {
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+/* 스크롤바 스타일 */
+.dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+/* ========================================
+   작업공간 항목
+   ======================================== */
+
+.dropdown-list .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s ease;
+  font-family: var(--font-main);
+}
+
+.dropdown-list .dropdown-item:hover {
+  background: var(--bg-hover);
+}
+
+.dropdown-list .dropdown-item:focus-visible {
+  outline: none;
+  background: var(--bg-hover);
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.dropdown-list .dropdown-item.focused {
+  background: var(--bg-hover);
+}
+
+.dropdown-list .dropdown-item[aria-selected="true"] {
+  background: var(--bg-selected);
+}
+
+.dropdown-list .dropdown-item[aria-selected="true"]:hover,
+.dropdown-list .dropdown-item[aria-selected="true"].focused {
+  background: var(--bg-selected-hover);
+}
+
+/* 현재 작업공간 표시 */
+.dropdown-item-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.dropdown-item[aria-selected="true"] .dropdown-item-indicator::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+.dropdown-item-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-item[aria-selected="true"] .dropdown-item-name {
+  font-weight: 500;
+}
+
+/* ========================================
+   검색 결과 없음
+   ======================================== */
+
+.dropdown-empty {
+  padding: 24px 16px;
+  text-align: center;
+}
+
+.dropdown-empty-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ========================================
+   하단 액션
+   ======================================== */
+
+.dropdown-footer {
+  padding: 6px;
+  border-top: 1px solid var(--border-light);
+}
+
+.dropdown-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s ease;
+  font-family: var(--font-main);
+}
+
+.dropdown-action:hover {
+  background: var(--bg-hover);
+}
+
+.dropdown-action:focus-visible {
+  outline: none;
+  background: var(--bg-hover);
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.dropdown-action .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+.dropdown-action span {
+  font-size: 14px;
+  color: var(--text-primary);
+}

@@ -1,0 +1,214 @@
+/* ========================================
+   모듈 H: 탭 시스템 스타일
+   ======================================== */
+
+/* ========================================
+   탭 바
+   ======================================== */
+
+.tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+  max-width: 50vw;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ========================================
+   탭 아이템
+   ======================================== */
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  max-width: 180px;
+  min-width: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.tab-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.tab-item.active {
+  background: var(--bg-active, rgba(0, 0, 0, 0.06));
+  color: var(--text-primary);
+  font-weight: 500;
+  border-color: var(--border-light);
+}
+
+/* 탭 이름 */
+.tab-item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ========================================
+   탭 닫기 버튼
+   ======================================== */
+
+.tab-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.tab-item:hover .tab-close-btn,
+.tab-item.active .tab-close-btn {
+  opacity: 0.6;
+}
+
+.tab-close-btn:hover {
+  opacity: 1 !important;
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   탭 컨테이너 (workspace-view 복제본)
+   ======================================== */
+
+.tab-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+.tab-container.active {
+  display: block;
+}
+
+/* 탭이 활성일 때 workspace-view 내부 스타일 유지 */
+.tab-container .app-main {
+  height: 100%;
+}
+
+/* ========================================
+   홈 버튼 (탭바 좌측)
+   ======================================== */
+
+.tab-home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 16px;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.tab-home-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* 탭 구분선 */
+.tab-separator {
+  width: 1px;
+  height: 20px;
+  background: var(--border-light);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   반응형
+   ======================================== */
+
+@media (max-width: 768px) {
+  .tab-bar {
+    max-width: 40vw;
+  }
+
+  .tab-item {
+    padding: 5px 8px;
+    font-size: 12px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tab-bar {
+    max-width: 35vw;
+  }
+
+  .tab-item {
+    padding: 4px 6px;
+    max-width: 100px;
+  }
+
+  .tab-item-name {
+    max-width: 60px;
+  }
+}
+
+/* ========================================
+   삭제된 탭 상태
+   ======================================== */
+
+.tab.deleted,
+.tab-item.deleted {
+  opacity: 0.6;
+  background: var(--bg-hover);
+}
+
+.tab.deleted .tab-name,
+.tab.deleted .tab-item-name,
+.tab-item.deleted .tab-item-name {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.tab-deleted-icon {
+  font-size: 12px;
+  margin-right: 2px;
+}
+
+.tab-name.strikethrough {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}

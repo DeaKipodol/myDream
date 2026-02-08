@@ -1,0 +1,56 @@
+<!-- ========================================
+     모듈 B: 홈 화면 템플릿
+     주입 위치: #home-slot 또는 #main-slot
+     ======================================== -->
+
+<main class="home-view" id="home-view">
+  <div class="home-container">
+    <!-- 헤더 영역 -->
+    <div class="home-header">
+      <h1 class="home-title">내 작업공간</h1>
+      <p class="home-subtitle">생각을 가지치기하세요</p>
+    </div>
+
+    <!-- 검색 + 새로 만들기 -->
+    <div class="home-actions">
+      <div class="search-wrapper">
+        <svg class="search-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input
+          type="search"
+          class="search-input"
+          id="workspace-search"
+          placeholder="작업공간 검색..."
+          aria-label="작업공간 검색"
+        >
+      </div>
+
+      <button class="btn-new-workspace" id="btn-new-workspace">
+        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        <span>새 작업공간</span>
+      </button>
+    </div>
+
+    <!-- 작업공간 목록 -->
+    <div class="home-workspace-list" id="home-workspace-list" role="list">
+      <!-- 카드들이 동적으로 렌더링 -->
+    </div>
+
+    <!-- 빈 상태 -->
+    <div class="home-empty-state" id="home-empty-state" hidden>
+      <svg class="empty-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
+      </svg>
+      <p class="empty-text">아직 작업공간이 없습니다</p>
+      <button class="btn-new-workspace" id="btn-new-workspace-empty">
+        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5v14"/>
+        </svg>
+        <span>첫 작업공간 만들기</span>
+      </button>
+    </div>
+  </div>
+</main>

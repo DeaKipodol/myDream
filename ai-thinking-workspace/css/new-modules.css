@@ -1,0 +1,649 @@
+/* ========================================
+   새 모듈 시스템 CSS (통합자 관리)
+   Core + UI 모듈용 스타일
+   ======================================== */
+
+/* ===== 햄버거 버튼 ===== */
+.header-hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-primary, #f5f4f0);
+  font-size: 20px;
+  transition: background 0.2s;
+  margin-right: 8px;
+}
+
+.header-hamburger:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.hamburger-icon {
+  line-height: 1;
+}
+
+/* ===== SidePanel ===== */
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 998;
+}
+
+.side-panel-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: var(--bg-sidebar, #242220);
+  border-right: 1px solid var(--border, #3a3835);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  /* 텍스트 색상 명시적 설정 */
+  color: var(--text-primary, #f5f4f0);
+}
+
+.side-panel.open {
+  transform: translateX(0);
+}
+
+.sp-search {
+  padding: 16px;
+  border-bottom: 1px solid var(--border, #3a3835);
+}
+
+.sp-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-card, #2a2825);
+  border: 1px solid var(--border, #3a3835);
+  border-radius: 6px;
+  color: var(--text-primary, #fff);
+  font-size: 14px;
+}
+
+.sp-search-input::placeholder {
+  color: var(--text-muted, #787470);
+}
+
+.sp-section {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.sp-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary, #a8a49c);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.sp-workspace-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sp-workspace-item {
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: var(--text-primary, #f5f4f0);
+  font-size: 14px;
+}
+
+.sp-workspace-item:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.sp-workspace-item.active {
+  background: var(--bg-active, #3b82f6);
+  color: white;
+}
+
+.sp-new-workspace {
+  color: var(--text-secondary, #a8a49c);
+  opacity: 0.8;
+}
+
+.sp-new-workspace:hover {
+  opacity: 1;
+}
+
+.sp-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border, #3a3835);
+}
+
+.sp-footer-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: var(--text-primary, #f5f4f0);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sp-footer-item:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.sp-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.sp-account {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.sp-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary, #c9a87a);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.sp-account-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-account-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #f5f4f0);
+}
+
+.sp-account-plan {
+  font-size: 12px;
+  color: var(--text-muted, #a8a49c);
+  color: var(--text-muted, #787470);
+}
+
+/* ===== ChatHeader ===== */
+#chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border, #3a3835);
+  background: var(--bg-sidebar, #242220);
+}
+
+#chat-header.hidden {
+  display: none;
+}
+
+.ch-node-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-card, #2a2825);
+  border: 1px solid var(--border, #3a3835);
+  border-radius: 6px;
+  color: var(--text-primary, #fff);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ch-node-btn:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.ch-node-icon {
+  font-size: 14px;
+}
+
+.ch-node-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ch-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ch-branch-btn,
+.ch-more-btn {
+  padding: 6px 12px;
+  background: var(--bg-card, #2a2825);
+  border: 1px solid var(--border, #3a3835);
+  border-radius: 6px;
+  color: var(--text-primary, #fff);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.ch-branch-btn:hover,
+.ch-more-btn:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.ch-menu {
+  position: absolute;
+  right: 16px;
+  top: 100%;
+  margin-top: 4px;
+  background: var(--bg-sidebar, #242220);
+  border: 1px solid var(--border, #3a3835);
+  border-radius: 8px;
+  padding: 4px;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.ch-menu.hidden {
+  display: none;
+}
+
+.ch-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: var(--text-primary, #fff);
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.ch-menu-item:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.ch-menu-danger {
+  color: #ef4444;
+}
+
+.ch-menu-divider {
+  height: 1px;
+  background: var(--border, #3a3835);
+  margin: 4px 0;
+}
+
+.ch-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ch-skeleton-text {
+  width: 120px;
+  height: 20px;
+  background: var(--bg-card, #2a2825);
+  border-radius: 4px;
+  animation: skeleton-pulse 1.5s infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.ch-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ef4444;
+}
+
+/* ===== EdgeDock 패널 컨테이너 ===== */
+/* edge-dock 버튼 클릭 시 표시되는 패널 */
+/* 비활성화됨 - 레거시 sidebar/panel 사용 */
+.dock-panel-container {
+  display: none !important;  /* 레거시 시스템 사용으로 비활성화 */
+  position: fixed;
+  top: var(--header-height, 52px);
+  bottom: 0;
+  left: 68px; /* edge-dock 버튼 너비 옆 */
+  width: 280px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  box-shadow: var(--shadow-lg);
+  z-index: 94; /* edge-dock(95)보다 아래 */
+  overflow: hidden;
+  /* 기본 숨김 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.dock-panel-container.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.dock-panel {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dock-panel.open {
+  display: flex;
+}
+
+/* dock 패널 내부 스타일 */
+.dock-panel .tree-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-sm, 8px) var(--spacing-md, 16px);
+}
+
+/* dock 패널 기본 콘텐츠 스타일 */
+.dock-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md, 16px);
+}
+
+/* dock 패널 빈 상태 */
+.dock-panel-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  text-align: center;
+  padding: var(--spacing-lg, 24px);
+}
+
+.dock-panel-empty-icon {
+  font-size: 48px;
+  margin-bottom: var(--spacing-md, 16px);
+  opacity: 0.5;
+}
+
+.dock-panel-empty-text {
+  font-size: 14px;
+}
+
+/* dock 패널 헤더 (선택적) */
+.dock-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border, #3a3835);
+  background: var(--bg-card, #2a2825);
+}
+
+.dock-panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+}
+
+.dock-panel-close {
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted, #787470);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dock-panel-close:hover {
+  color: var(--text-primary, #fff);
+}
+
+/* EdgeDock 아이템 (새 시스템) */
+.ed-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.ed-item:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.ed-item.active {
+  background: var(--bg-active, #3b82f6);
+}
+
+.ed-icon {
+  font-size: 18px;
+}
+
+.ed-label {
+  font-size: 10px;
+  color: var(--text-muted, #787470);
+}
+
+.ed-add {
+  opacity: 0.6;
+}
+
+.ed-add:hover {
+  opacity: 1;
+}
+
+/* ===== AppHeader (새 시스템) ===== */
+/* 기존 header 내부에 추가될 요소들 */
+.ah-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ah-hamburger {
+  padding: 8px;
+  background: none;
+  border: none;
+  color: var(--text-primary, #fff);
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 6px;
+}
+
+.ah-hamburger:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.ah-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.ah-logo-icon {
+  font-size: 24px;
+}
+
+.ah-logo-text {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.ah-tabs {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0 16px;
+  overflow-x: auto;
+}
+
+.ah-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ah-btn {
+  padding: 8px;
+  background: none;
+  border: none;
+  color: var(--text-primary, #fff);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.ah-btn:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+.ah-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-active, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ===== Tab 스타일 (TabManager용) ===== */
+#tab-container {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+#tab-container .tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-card, #2a2825);
+  border: 1px solid var(--border, #3a3835);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary, #fff);
+  transition: background 0.2s;
+  max-width: 150px;
+}
+
+#tab-container .tab:hover {
+  background: var(--bg-hover, #2e2c28);
+}
+
+#tab-container .tab.active {
+  background: var(--bg-active, #3b82f6);
+  border-color: var(--bg-active, #3b82f6);
+}
+
+#tab-container .tab.loading {
+  opacity: 0.7;
+}
+
+#tab-container .tab-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#tab-container .tab-close {
+  padding: 2px 4px;
+  background: none;
+  border: none;
+  color: var(--text-muted, #787470);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 3px;
+}
+
+#tab-container .tab-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary, #fff);
+}
+
+#tab-container .tab-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--text-muted, #787470);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+#tab-container .tab-error {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+#tab-container .tab-new {
+  padding: 6px 12px;
+  background: none;
+  border: 1px dashed var(--border, #3a3835);
+  border-radius: 6px;
+  color: var(--text-muted, #787470);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#tab-container .tab-new:hover {
+  background: var(--bg-hover, #2e2c28);
+  color: var(--text-primary, #fff);
+}
+
+/* ===== 유틸리티 ===== */
+.hidden {
+  display: none !important;
+}

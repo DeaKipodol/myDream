@@ -1,0 +1,330 @@
+/* ========================================
+   모듈 G: 입력창 + UX 잔여
+
+   담당 범위:
+   - .chat-input-area
+   - .chat-input-wrapper
+   - .chat-input
+   - .chat-send-btn
+   - .chat-input-hint
+   - 입력창 관련 반응형
+   ======================================== */
+
+/* ========================================
+   입력창 래퍼
+   ======================================== */
+
+.chat-input-area {
+  padding: 16px 24px 24px;
+  background: var(--bg-chat);
+  border-top: 1px solid var(--border-light);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  max-width: var(--chat-width);
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.chat-input-wrapper:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-alpha);
+}
+
+/* ========================================
+   텍스트 입력 (textarea)
+   ======================================== */
+
+.chat-input {
+  flex: 1;
+  min-height: 24px;
+  max-height: 200px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-main);
+  font-size: 16px;  /* GPT 스타일 통일 */
+  line-height: 1.5;
+  color: var(--text-primary);
+  resize: none;
+  overflow-y: auto;
+}
+
+.chat-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.chat-input:focus {
+  outline: none;
+}
+
+/* input 요소일 때도 대응 */
+input.chat-input {
+  height: 28px;  /* 크기 증가 */
+}
+
+/* ========================================
+   전송 버튼
+   ======================================== */
+
+.chat-send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: var(--primary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.chat-send-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.chat-send-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.chat-send-btn:disabled {
+  background: var(--bg-disabled);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.chat-send-btn .icon {
+  width: 18px;
+  height: 18px;
+  color: white;
+}
+
+/* 기존 .send-btn도 지원 (하위 호환) */
+.send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: var(--primary);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+  flex-shrink: 0;
+  color: white;
+  font-size: 16px;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.send-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.send-btn:disabled {
+  background: var(--bg-disabled);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ========================================
+   힌트 텍스트
+   ======================================== */
+
+.chat-input-hint {
+  max-width: var(--chat-width);
+  margin: 8px auto 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ========================================
+   포커스 표시 (접근성)
+   ======================================== */
+
+.chat-send-btn:focus-visible,
+.send-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   반응형 - 태블릿 (768px 이하)
+   ======================================== */
+
+@media (max-width: 768px) {
+  .chat-input-area {
+    padding: 12px 16px 16px;
+  }
+
+  .chat-input-wrapper {
+    padding: 10px 14px;
+    border-radius: 14px;
+    gap: 10px;
+  }
+
+  .chat-input {
+    font-size: 16px; /* iOS 확대 방지 */
+  }
+
+  .chat-send-btn,
+  .send-btn {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* ========================================
+   반응형 - 모바일 (600px 이하)
+   ======================================== */
+
+@media (max-width: 600px) {
+  .chat-input-area {
+    padding: 10px 12px 12px;
+    /* 엣지 독 공간 확보 (모바일에서 하단 고정) */
+    padding-bottom: env(safe-area-inset-bottom, 12px);
+  }
+
+  .chat-input-wrapper {
+    padding: 8px 12px;
+    border-radius: 12px;
+    gap: 8px;
+  }
+
+  .chat-send-btn,
+  .send-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .chat-send-btn .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .chat-input-hint {
+    display: none;
+  }
+}
+
+
+/* ========================================
+   환영 메시지 (빈 채팅 상태)
+   ======================================== */
+
+.chat-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 300px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.chat-welcome-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.chat-welcome-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+}
+
+.chat-welcome-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0 0 32px;
+  max-width: 400px;
+}
+
+.chat-welcome-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.chat-welcome-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chat-welcome-hint:hover {
+  background: var(--bg-hover);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 메시지가 있을 때 환영 메시지 숨김 */
+.chat-messages:has(.message) .chat-welcome {
+  display: none;
+}
+
+/* :has 미지원 브라우저용 클래스 */
+.chat-welcome.hidden {
+  display: none;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .chat-welcome {
+    padding: 32px 16px;
+    min-height: 200px;
+  }
+
+  .chat-welcome-icon {
+    font-size: 48px;
+  }
+
+  .chat-welcome-title {
+    font-size: 20px;
+  }
+
+  .chat-welcome-hints {
+    flex-direction: column;
+  }
+
+  .chat-welcome-hint {
+    width: 100%;
+    justify-content: center;
+  }
+}

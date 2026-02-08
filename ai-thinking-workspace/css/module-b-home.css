@@ -1,0 +1,525 @@
+/* ========================================
+   모듈 B: 홈 화면 스타일
+   ======================================== */
+
+/* 화면 전환 구조 */
+.home-view {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+  min-height: calc(100vh - var(--header-height));
+  background: var(--bg-main);
+  overflow: visible;  /* 드롭다운이 잘리지 않도록 */
+}
+
+.home-view[hidden] {
+  display: none;
+}
+
+.workspace-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.workspace-view[hidden] {
+  display: none;
+}
+
+.home-container {
+  width: 100%;
+  max-width: 720px;
+}
+
+/* ========================================
+   홈 헤더
+   ======================================== */
+
+.home-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.home-subtitle {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ========================================
+   검색 + 새로 만들기
+   ======================================== */
+
+.home-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.search-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-input);
+  font-size: 15px;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-input::placeholder {
+  color: var(--text-placeholder);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-alpha);
+}
+
+/* 새 작업공간 버튼 */
+.btn-new-workspace {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-new-workspace:hover {
+  background: var(--primary-hover);
+}
+
+.btn-new-workspace:active {
+  transform: scale(0.98);
+}
+
+.btn-new-workspace:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.btn-new-workspace .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ========================================
+   작업공간 목록
+   ======================================== */
+
+.home-workspace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ========================================
+   작업공간 카드
+   ======================================== */
+
+.workspace-card {
+  position: relative;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  z-index: 1;
+}
+
+/* 드롭다운이 열린 카드는 다른 카드 위에 표시 */
+.workspace-card:has(.workspace-card-dropdown:not([hidden])) {
+  z-index: 100;
+}
+
+.workspace-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.workspace-card:active:not(:has(.workspace-card-dropdown:not([hidden]))) {
+  transform: scale(0.995);
+}
+
+.workspace-card:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.workspace-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.workspace-card-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-card-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.workspace-card:hover .workspace-card-menu,
+.workspace-card-menu:focus {
+  opacity: 1;
+}
+
+.workspace-card-menu:hover {
+  background: var(--bg-hover);
+}
+
+.workspace-card-menu .icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+}
+
+.workspace-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.workspace-card-dot {
+  font-size: 10px;
+}
+
+/* ========================================
+   카드 드롭다운
+   ======================================== */
+
+.workspace-card-dropdown {
+  position: fixed;
+  min-width: 160px;
+  padding: 6px;
+  background: var(--bg-dropdown);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  pointer-events: auto !important;
+}
+
+.workspace-card-dropdown[hidden] {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+  top: -9999px;
+  left: -9999px;
+}
+
+.workspace-card-dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.1s ease;
+  pointer-events: auto !important;
+}
+
+.workspace-card-dropdown .dropdown-item:hover {
+  background: var(--bg-hover);
+}
+
+.workspace-card-dropdown .dropdown-item .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+.workspace-card-dropdown .dropdown-item.danger {
+  color: var(--danger);
+}
+
+.workspace-card-dropdown .dropdown-item.danger .icon {
+  color: var(--danger);
+}
+
+/* ========================================
+   포탈 드롭다운 (body에 추가되는 버전)
+   ======================================== */
+
+#workspace-dropdown-portal {
+  position: fixed;
+  min-width: 140px;
+  padding: 6px;
+  background: var(--bg-dropdown, #fff);
+  border: 1px solid var(--border, #e5e5e5);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 99999;
+}
+
+#workspace-dropdown-portal .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: var(--font-main);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+#workspace-dropdown-portal .dropdown-item:hover {
+  background: var(--bg-hover);
+}
+
+#workspace-dropdown-portal .dropdown-item.danger {
+  color: var(--danger);
+}
+
+/* ========================================
+   빈 상태
+   ======================================== */
+
+.home-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.home-empty-state[hidden] {
+  display: none;
+}
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
+/* ========================================
+   반응형
+   ======================================== */
+
+@media (max-width: 600px) {
+  .home-view {
+    padding: 24px 16px;
+  }
+
+  .home-title {
+    font-size: 24px;
+  }
+
+  .home-actions {
+    flex-direction: column;
+  }
+
+  .btn-new-workspace {
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   휴지통 섹션
+   ======================================== */
+
+.home-trash-section {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.home-trash-section[hidden] {
+  display: none;
+}
+
+.trash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.trash-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trash-count {
+  font-size: 13px;
+  font-weight: 400;
+  background: var(--bg-hover);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.btn-empty-trash {
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--danger);
+  background: transparent;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-empty-trash:hover:not(:disabled) {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-empty-trash:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.trash-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trash-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-hover);
+  border-radius: 8px;
+  opacity: 0.7;
+}
+
+.trash-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trash-card-name {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+.trash-card-date {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.trash-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-trash-restore,
+.btn-trash-delete {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.btn-trash-restore {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.btn-trash-restore:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-trash-delete {
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.btn-trash-delete:hover {
+  background: var(--danger);
+  color: white;
+}

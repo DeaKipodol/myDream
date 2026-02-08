@@ -1,0 +1,8 @@
+# 이 폴더에 모듈별 HTML 템플릿 파일을 저장합니다.
+#
+# 예정된 파일:
+# - header.html (모듈 A)
+# - home.html (모듈 B)
+# - workspace-dropdown.html (모듈 C)
+# - settings-dropdown.html (모듈 D)
+# - account-dropdown.html (모듈 D)

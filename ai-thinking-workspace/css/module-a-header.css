@@ -1,0 +1,201 @@
+/* ========================================
+   모듈 A: 헤더 스타일
+   ======================================== */
+
+/* ========================================
+   헤더 메인 레이아웃
+   ======================================== */
+
+.app-header {
+  height: var(--header-height);
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 var(--spacing-md);
+  gap: var(--spacing-md);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ========================================
+   로고
+   ======================================== */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 22px;
+  opacity: 0.9;
+}
+
+/* ========================================
+   작업공간 선택기
+   ======================================== */
+
+.workspace-selector {
+  position: relative;
+}
+
+.workspace-selector-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.workspace-selector-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border);
+}
+
+.workspace-selector-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.workspace-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-chevron {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.workspace-chevron::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+
+.workspace-selector-btn[aria-expanded="true"] .workspace-chevron {
+  transform: rotate(180deg);
+}
+
+/* 드롭다운 컨테이너 (내용은 모듈 C에서) */
+.workspace-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 280px;
+  background: var(--bg-dropdown);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+}
+
+/* ========================================
+   헤더 아이콘 버튼 (설정, 계정)
+   ======================================== */
+
+.header-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.header-icon-btn:hover {
+  background: var(--bg-hover);
+}
+
+.header-icon-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.header-icon-btn .icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   계정 아바타
+   ======================================== */
+
+.account-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--avatar-bg);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* 아바타 색상 변형 */
+.account-avatar[data-color="orange"] { background: #F59E0B; }
+.account-avatar[data-color="green"] { background: #10B981; }
+.account-avatar[data-color="blue"] { background: #3B82F6; }
+.account-avatar[data-color="purple"] { background: #8B5CF6; }
+.account-avatar[data-color="pink"] { background: #EC4899; }
+
+/* ========================================
+   반응형
+   ======================================== */
+
+@media (max-width: 768px) {
+  .workspace-name {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 0 var(--spacing-sm);
+  }
+
+  .workspace-name {
+    max-width: 100px;
+  }
+}

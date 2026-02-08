@@ -1,0 +1,188 @@
+/* ========================================
+   공통 CSS 변수 (통합자 관리)
+   모든 모듈에서 이 파일의 변수를 사용합니다.
+   수정이 필요하면 통합자에게 요청하세요.
+   ======================================== */
+
+:root {
+  /* ========================================
+     색상 - Claude Desktop 따뜻한 팔레트
+     ======================================== */
+  --primary: #b4956a;
+  --primary-light: #f5f0e8;
+  --primary-dark: #8b7355;
+  --primary-hover: #8b7355;
+  --primary-alpha: rgba(180, 149, 106, 0.15);
+  --accent: #b4956a;
+
+  /* ========================================
+     배경
+     ======================================== */
+  --bg-main: #faf9f7;
+  --bg-sidebar: #f5f4f0;
+  --bg-panel: #f5f4f0;
+  --bg-hover: #efeee8;
+  --bg-active: #ebe8e0;
+  --bg-chat: #fdfcfa;
+  --bg-card: #ffffff;
+  --bg-input: #f9f8f6;
+  --bg-dropdown: #ffffff;
+  --bg-selected: rgba(180, 149, 106, 0.08);
+  --bg-selected-hover: rgba(180, 149, 106, 0.12);
+  --bg-badge: rgba(0, 0, 0, 0.06);
+  --bg-code: #f3f4f6;
+  --bg-disabled: #e5e7eb;
+  --bg-subtle: #f9f8f6;
+
+  /* ========================================
+     텍스트
+     ======================================== */
+  --text-primary: #2d2a26;
+  --text-secondary: #6b6560;
+  --text-muted: #9a958e;
+  --text-placeholder: #b5b0a8;
+
+  /* ========================================
+     테두리
+     ======================================== */
+  --border: #e8e6e1;
+  --border-light: #f0efe9;
+  --border-hover: #d8d5ce;
+
+  /* ========================================
+     그림자
+     ======================================== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow: rgba(0, 0, 0, 0.08);
+
+  /* ========================================
+     상태 색상
+     ======================================== */
+  --danger: #dc6b5e;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+
+  /* ========================================
+     레이아웃
+     ======================================== */
+  --sidebar-width: 260px;
+  --panel-width: 300px;
+  --header-height: 52px;
+
+  /* ========================================
+     아이콘 크기 (모듈 E)
+     ======================================== */
+  --icon-xs: 14px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+  --icon-2xl: 48px;
+  --icon-3xl: 64px;
+
+  /* ========================================
+     아바타
+     ======================================== */
+  --avatar-bg: #E8B86D;
+
+  /* ========================================
+     페르소나 색상 (모듈 F)
+     ======================================== */
+  --persona-analyst: #3B82F6;
+  --persona-designer: #8B5CF6;
+  --persona-marketer: #10B981;
+  --persona-strategist: #F59E0B;
+  --persona-critic: #EF4444;
+  --persona-ai: #6B7280;
+
+  /* ========================================
+     폰트 크기 (고정값)
+     ======================================== */
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-base: 16px;
+  --font-lg: 18px;
+  --font-xl: 20px;
+  --font-2xl: 24px;
+
+  /* ========================================
+     간격 (고정값)
+     ======================================== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ========================================
+     컴포넌트 크기 (고정값)
+     ======================================== */
+  --avatar-sm: 32px;
+  --avatar-md: 40px;
+  --avatar-lg: 48px;
+  --border-radius-sm: 6px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 16px;
+
+  /* ========================================
+     레이아웃 (고정값)
+     ======================================== */
+  --chat-width: 768px;
+
+  /* ========================================
+     폰트 패밀리
+     ======================================== */
+  --font-main: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ========================================
+   다크모드
+   ======================================== */
+[data-theme="dark"] {
+  /* 색상 */
+  --primary: #c9a87a;
+  --primary-light: #3d3830;
+  --primary-dark: #e0c9a0;
+  --primary-hover: #d4b88a;
+  --primary-alpha: rgba(201, 168, 122, 0.2);
+
+  /* 배경 */
+  --bg-main: #1a1917;
+  --bg-sidebar: #242220;
+  --bg-panel: #242220;
+  --bg-hover: #2e2c28;
+  --bg-active: #383530;
+  --bg-chat: #1f1e1c;
+  --bg-card: #2a2825;
+  --bg-input: #1f1e1c;
+  --bg-dropdown: #2a2825;
+  --bg-selected: rgba(201, 168, 122, 0.15);
+  --bg-selected-hover: rgba(201, 168, 122, 0.2);
+  --bg-badge: rgba(255, 255, 255, 0.1);
+  --bg-code: #2a2825;
+
+  /* 텍스트 */
+  --text-primary: #f5f4f0;
+  --text-secondary: #a8a49c;
+  --text-muted: #787470;
+  --text-placeholder: #5a5650;
+
+  /* 테두리 */
+  --border: #3a3835;
+  --border-light: #2e2c28;
+  --border-hover: #4a4745;
+
+  /* 그림자 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow: rgba(0, 0, 0, 0.4);
+
+  /* 상태 */
+  --danger: #e57373;
+}
