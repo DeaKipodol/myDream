@@ -83,3 +83,7 @@ venv/
 *.tmp
 *.log
 *.bak
+
+PersonaDiscussion/
+ai-thinking-workspace/
+design/
